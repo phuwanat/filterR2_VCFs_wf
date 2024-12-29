@@ -32,11 +32,12 @@ task run_filtering {
 		Int threadCount = 2
 		Int diskSizeGB = 8*round(size(vcf, "GB")) + 20
 	String out_name = basename(vcf, ".vcf.gz")
+	String r2 = "0.7"
 	}
 	
 	command <<<
 	tabix -p vcf ~{vcf}
-	bcftools view -S ~{sample} -i 'R2>=0.3' -Oz -o ~{out_name}.filtered.vcf.gz ~{vcf}
+	bcftools view -S ~{sample} -i 'R2>=~{r2}' -Oz -o ~{out_name}.filtered.vcf.gz ~{vcf}
 	tabix -p vcf ~{out_name}.filtered.vcf.gz
 	>>>
 
